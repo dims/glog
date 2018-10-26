@@ -21,10 +21,7 @@
 package glog
 
 import (
-	"fmt"
-	"os"
-
-	"go.uber.org/zap"
+	"github.com/dims/klog"
 )
 
 // Level is a shim
@@ -35,139 +32,130 @@ type Verbose bool
 
 // Flush is a shim
 func Flush() {
-	zap.L().Sync()
 }
 
 // V is a shim
 func V(level Level) Verbose {
-	return Verbose(zap.L().Core().Enabled(zap.DebugLevel))
+	return Verbose(bool(klog.V(klog.Level(int32(level)))))
 }
 
 // Info is a shim
 func (v Verbose) Info(args ...interface{}) {
-	zap.S().Debug(args...)
+	if v {
+		klog.Info(args...)
+	}
 }
 
 // Infoln is a shim
 func (v Verbose) Infoln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Debug(s, "\n")
+	if v {
+		klog.Infoln(args...)
+	}
 }
 
 // Infof is a shim
 func (v Verbose) Infof(format string, args ...interface{}) {
-	zap.S().Debugf(format, args...)
+	if v {
+		klog.Infof(format, args...)
+	}
 }
 
 // Info is a shim
 func Info(args ...interface{}) {
-	zap.S().Info(args...)
+	klog.Info(args...)
 }
 
 // InfoDepth is a shim
 func InfoDepth(depth int, args ...interface{}) {
-	zap.S().Info(args...)
+	klog.InfoDepth(depth, args...)
 }
 
 // Infoln is a shim
 func Infoln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Info(s, "\n")
+	klog.Infoln(args...)
 }
 
 // Infof is a shim
 func Infof(format string, args ...interface{}) {
-	zap.S().Infof(format, args...)
+	klog.Infof(format, args...)
 }
 
 // Warning is a shim
 func Warning(args ...interface{}) {
-	zap.S().Warn(args...)
+	klog.Warning(args...)
 }
 
 // WarningDepth is a shim
 func WarningDepth(depth int, args ...interface{}) {
-	zap.S().Warn(args...)
+	klog.WarningDepth(depth, args...)
 }
 
 // Warningln is a shim
 func Warningln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Warn(s, "\n")
+	klog.Warningln(args...)
 }
 
 // Warningf is a shim
 func Warningf(format string, args ...interface{}) {
-	zap.S().Warnf(format, args...)
+	klog.Warningf(format, args...)
 }
 
 // Error is a shim
 func Error(args ...interface{}) {
-	zap.S().Error(args...)
+	klog.Error(args...)
 }
 
 // ErrorDepth is a shim
 func ErrorDepth(depth int, args ...interface{}) {
-	zap.S().Error(args...)
+	klog.ErrorDepth(depth, args...)
 }
 
 // Errorln is a shim
 func Errorln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Error(s, "\n")
+	klog.Errorln(args...)
 }
 
 // Errorf is a shim
 func Errorf(format string, args ...interface{}) {
-	zap.S().Errorf(format, args...)
+	klog.Errorf(format, args...)
 }
 
 // Fatal is a shim
 func Fatal(args ...interface{}) {
-	zap.S().Error(args...)
-	os.Exit(255)
+	klog.Fatal(args...)
 }
 
 // FatalDepth is a shim
 func FatalDepth(depth int, args ...interface{}) {
-	zap.S().Error(args...)
-	os.Exit(255)
+	klog.FatalDepth(depth, args...)
 }
 
 // Fatalln is a shim
 func Fatalln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Error(s, "\n")
-	os.Exit(255)
+	klog.Fatalln(args...)
 }
 
 // Fatalf is a shim
 func Fatalf(format string, args ...interface{}) {
-	zap.S().Errorf(format, args...)
-	os.Exit(255)
+	klog.Fatalf(format, args...)
 }
 
 // Exit is a shim
 func Exit(args ...interface{}) {
-	zap.S().Error(args...)
-	os.Exit(1)
+	klog.Exit(args...)
 }
 
 // ExitDepth is a shim
 func ExitDepth(depth int, args ...interface{}) {
-	zap.S().Error(args...)
-	os.Exit(1)
+	klog.ExitDepth(depth, args...)
 }
 
 // Exitln is a shim
 func Exitln(args ...interface{}) {
-	s := fmt.Sprint(args)
-	zap.S().Error(s, "\n")
-	os.Exit(1)
+	klog.Exitln(args...)
 }
 
 // Exitf is a shim
 func Exitf(format string, args ...interface{}) {
-	zap.S().Errorf(format, args...)
-	os.Exit(1)
+	klog.Exitf(format, args...)
 }
